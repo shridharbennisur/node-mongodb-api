@@ -4,12 +4,16 @@
   "description": "nodejs-mongodb simple crud functionality",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mongodb": "^2.2.5"
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongodb": "^2.2.5",
+    "mongoose": "^5.4.20"
   },
   "devDependencies": {
     "eslint": "^5.15.3",
