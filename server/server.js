@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 // eslint-disable-next-line no-unused-vars
 const { mongoose } = require('./db/mongoose.js');
 const express = require('express');
@@ -45,20 +47,74 @@ app.get('/todos', (req, res) => {
 app.get('/todos/:id', (req, res) => {
 	const id = req.params.id;
 	if (!ObjectId.isValid(id)) {
-		return res.send(404).send({
-			message: 'todo is not found'
+		return res.status(404).send({
+			message: 'todo id is not found'
 		});
 	} 
 	Todo.findById(id).then(todo => {
 		if (!todo) {
-			return res.send(404).send({
-				message: 'todo is not found'
+			return res.status(404).send({
+				message: 'todo id is not found'
 			});
 		}
 		return res.send({todo});
 	}).catch(err => {
-		return res.send(404).send({
-			message: 'todo is not found',
+		return res.status(404).send({
+			message: 'todo id is not found',
+			err
+		});
+	});
+});
+
+//deleting the 
+app.delete('/todos/:id', (req, res) => {
+	const id = req.params.id;
+	if (!ObjectId.isValid(id)) {
+		return res.status(404).send({
+			message: 'todo id is not found'
+		});
+	} 
+	Todo.findByIdAndRemove(id).then(todo => {
+		if (!todo) {
+			return res.status(404).send({
+				message: 'todo id is not found'
+			});
+		}
+		return res.send({todo});
+	}).catch(err => {
+		return res.status(404).send({
+			message: 'todo id is not found',
+			err
+		});
+	});
+});
+
+//updating the todos
+app.patch('/todos/:id', (req, res) => {
+	const id = req.params.id;
+	if (!ObjectId.isValid(id)) {
+		return res.status(404).send({
+			message: 'todo id is not found'
+		});
+	}
+	let body = _.pick(req.body, ['text', 'completed']);
+	if (_.isBoolean(body.completed) && body.completed) {
+		body.completedAt = new Date().getTime();
+	} else {
+		body.completed = false;
+		body.completedAt = null;
+	}
+	Todo.findByIdAndUpdate(id, {$set: body}, {new: true}).then(todo => {
+		if (!todo) {
+			return res.status(404).send({
+				message: 'todo id is not updated',
+			});
+		}
+		return res.send({todo});
+
+	}).catch(err => {
+		return res.status(404).send({
+			message: 'todo id is not updated',
 			err
 		});
 	});

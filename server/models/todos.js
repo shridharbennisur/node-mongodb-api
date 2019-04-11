@@ -12,7 +12,11 @@ const Todo = mongoose.model('Todo', {
 	},
 	completedAt: {
 		type: Number,
-		default: new Date()
+		default: null
+	},
+	startedAt: {
+		type: Number,
+		default: new Date().getTime()
 	}
 });
 
