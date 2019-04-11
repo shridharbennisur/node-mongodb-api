@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/TodoApp');
+// eslint-disable-next-line no-undef
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/TodoApp');

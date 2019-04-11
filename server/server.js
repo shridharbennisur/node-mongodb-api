@@ -9,6 +9,17 @@ const {Todo} = require('./models/todos');
 
 app.use(bodyParser.json());
 
+// eslint-disable-next-line no-undef
+const port = process.env.PORT || 3000;
+
+//Wlcome page
+app.get('/', (req, res) => {
+	console.log(req, res);
+	res.send({
+		message: 'welcome!'
+	});
+});
+
 //posting the todos
 app.post('/todos', (req, res) => {
 	console.log(req.body);
@@ -35,23 +46,24 @@ app.get('/todos/:id', (req, res) => {
 	const id = req.params.id;
 	if (!ObjectId.isValid(id)) {
 		return res.send(404).send({
-			data: {message: 'todo is not found'}
+			message: 'todo is not found'
 		});
 	} 
 	Todo.findById(id).then(todo => {
 		if (!todo) {
 			return res.send(404).send({
-				data: {message: 'todo is not found'}
+				message: 'todo is not found'
 			});
 		}
 		return res.send({todo});
 	}).catch(err => {
 		return res.send(404).send({
-			data: {message: 'todo is not found', err}
+			message: 'todo is not found',
+			err
 		});
 	});
 });
 
-app.listen(3000, () => {
-	console.log('on 3000 port started');
+app.listen(port, () => {
+	console.log(`started on port ${port}`);
 });
