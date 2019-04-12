@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
-const { mongodbConfig } = require('../../config/db');
+
+// eslint-disable-next-line no-undef
+if (!process.env.MONGO_URL) {
+	var { mongodbConfig } = require('../../config/db');
+}
+
 
 mongoose.Promise = global.Promise;
 // eslint-disable-next-line no-undef
