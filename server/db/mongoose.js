@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
+const { mongodbConfig } = require('../../config/db');
 
 mongoose.Promise = global.Promise;
 // eslint-disable-next-line no-undef
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/TodoApp');
+const url = mongodbConfig && mongodbConfig.url ? mongodbConfig.url : 'mongodb://localhost:27017/TodoApp';
+
+mongoose.connect(url, { useNewUrlParser: true });

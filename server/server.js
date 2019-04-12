@@ -16,7 +16,6 @@ const port = process.env.PORT || 3000;
 
 //Wlcome page
 app.get('/', (req, res) => {
-	console.log(req, res);
 	res.send({
 		message: 'welcome!'
 	});
@@ -24,7 +23,6 @@ app.get('/', (req, res) => {
 
 //posting the todos
 app.post('/todos', (req, res) => {
-	console.log(req.body);
 	const todo = new Todo(req.body);
 	todo.save().then (todos => {
 		res.send(todos);
@@ -35,7 +33,6 @@ app.post('/todos', (req, res) => {
 
 //geting the todos
 app.get('/todos', (req, res) => {
-	console.log(req);
 	Todo.find().then (todos => {
 		res.send({todos});
 	}).catch(err => {
